@@ -1,0 +1,6 @@
+<!-- templates/posts/index.html -->
+{% extends 'base.html' %} {% block content %}
+<div>{{ text }}</div>
+<br />
+<a href={% url 'posts:groups' %}> groups list </a>
+{% endblock %}
