@@ -13,7 +13,7 @@ class PostAdmin(admin.ModelAdmin):
     # Добавляем возможность фильтрации по дате
     list_filter = ('pub_date',)
     date_hierarchy = 'pub_date'
-    # Это свойство сработает для всех колонок: где пусто — там будет эта строка 
+    # Это свойство сработает для всех колонок: где пусто — там будет эта строка
     empty_value_display = '-пусто-'
     list_editable = ('group',)
 
