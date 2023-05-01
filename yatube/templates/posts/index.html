@@ -1,6 +1,10 @@
 <!-- templates/posts/index.html -->
 {% extends 'base.html' %} {% block content %}
-<div>{{ text }}</div>
-<br />
-<a href={% url 'posts:groups' %}> groups list </a>
+<div class="container py-5">
+    <h1>{{ text }}</h1>
+    <hr>
+        <a href={% url 'posts:groups' %}> groups list </a>
+    <br>
+</div>
+
 {% endblock %}
