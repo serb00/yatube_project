@@ -28,7 +28,6 @@ def index(request):
 
 def group_posts(request, slug=None):
     template = 'posts/group_list.html'
-    text = slug
     # Функция get_object_or_404 получает по заданным критериям объект
     # из базы данных или возвращает сообщение об ошибке, если объект не найден.
     # В нашем случае в переменную group будут переданы объекты модели Group,
@@ -45,7 +44,6 @@ def group_posts(request, slug=None):
     context = {
         'group': group,
         'posts': posts,
-        'text': text,
     }
     return render(request, template, context)
 
