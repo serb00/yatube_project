@@ -34,8 +34,9 @@
     <title>Последние обновления на сайте</title>
   </head>
   <body>
+    {% include 'nav.html' %}
     <header>
-      {% include 'includes/header.html' %}
+      {% comment %} {% include 'includes/header.html' %} {% endcomment %}
       <!-- Использованы классы бустрапа для создания типовой навигации с логотипом -->
       <!-- В дальнейшем тут будет создано полноценное меню -->
     </header>
