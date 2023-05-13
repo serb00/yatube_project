@@ -31,16 +31,16 @@
     <meta name="theme-color" content="#ffffff" />
     <!-- Подключен файл со стандартными стилями бустрап -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
-    <title>Последние обновления на сайте</title>
+    <title>Latest on website</title>
   </head>
   <body>
-    {% include 'nav.html' %}
+    {% include 'includes/nav.html' %}
     <header>
       {% comment %} {% include 'includes/header.html' %} {% endcomment %}
       <!-- Использованы классы бустрапа для создания типовой навигации с логотипом -->
       <!-- В дальнейшем тут будет создано полноценное меню -->
     </header>
-    <main>{% block content %} Контент не подвезли :( {% endblock %}</main>
+    <main>{% block content %} No content :( {% endblock %}</main>
     <!-- Использованы классы бустрапа: -->
     <!-- border-top: создаёт тонкую линию сверху блока -->
     <!-- text-center: выравнивает текстовые блоки внутри блока по центру -->

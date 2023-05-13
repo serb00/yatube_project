@@ -1,8 +1,9 @@
+<!-- templates/posts/group_list.html -->
 {% extends 'base.html' %} {% block content %}
 <div class="container">
   <h1>{{ group.title }}</h1>
   <p>{{ group.description }}</p>
-  {% for post in posts %}
+  {% for post in page_obj %}
   <ul>
     <li>Автор: {{ post.author.get_full_name }}</li>
     <li>Дата публикации: {{ post.pub_date|date:"d E Y" }}</li>
@@ -12,4 +13,7 @@
   <hr />
   {% endif %} {% endfor %}
 </div>
+
+{% include "posts/paginator.html" %}
+
 {% endblock %}

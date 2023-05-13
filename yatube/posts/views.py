@@ -1,6 +1,7 @@
 # from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
+from django.core.paginator import Paginator
 
 from .models import Group, Post
 
@@ -16,11 +17,19 @@ def index(request):
     # Одна строка вместо тысячи слов на SQL:
     # в переменную posts будет сохранена выборка из 10 объектов модели Post,
     # отсортированных по полю pub_date по убыванию (по убыванию)
-    posts = Post.objects.order_by('-pub_date')[:10]
+    posts = Post.objects.order_by('-pub_date')
+
+    # add paginator
+    paginator = Paginator(posts, 2)
+    # getting page number from URL Get request
+    page_number = request.GET.get("page")
+    # getting that page from paginator
+    page_obj = paginator.get_page(page_number)
+
     # В словаре context отправляем информацию в шаблон
     context = {
-        'posts': posts,
-        'text': 'Header'
+        'page_obj': page_obj,
+        'header': 'Posts'
     }
 
     return render(request, template, context)
@@ -40,10 +49,18 @@ def group_posts(request, slug=None):
     # Метод .filter позволяет ограничить поиск по критериям.
     # Это аналог добавления
     # условия WHERE group_id = {group_id}
-    posts = Post.objects.filter(group=group).order_by('-pub_date')[:10]
+    posts = Post.objects.filter(group=group).order_by('-pub_date')
+
+    # add paginator
+    paginator = Paginator(posts, 2)
+    # getting page number from URL Get request
+    page_number = request.GET.get("page")
+    # getting that page from paginator
+    page_obj = paginator.get_page(page_number)
+
     context = {
         'group': group,
-        'posts': posts,
+        'page_obj': page_obj,
     }
     return render(request, template, context)
 
