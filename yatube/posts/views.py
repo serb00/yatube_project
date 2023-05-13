@@ -60,7 +60,7 @@ def group_posts(request, slug=None):
 
     context = {
         'group': group,
-        'page_obj': page_obj,
+        'page_obj': page_obj
     }
     return render(request, template, context)
 
