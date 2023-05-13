@@ -4,22 +4,26 @@
   <h1>{{ header }}</h1>
   <br/>
   {% for post in page_obj %}
-  <ul>
-    <li>Автор: {{ post.author.get_full_name }}</li>
-    <li>Дата публикации: {{ post.pub_date|date:"d E Y" }}</li>
-  </ul>
-  <p>{{ post.text }}</p>
-  {% if post.group.slug != None %}
-  <a href="{% url 'posts:groups' post.group.slug %}"
-    >все записи группы {{ post.group.slug }}</a
-  >
-  {% elif post.group.slug == None %}
-  <a href="{% url 'posts:groups' %}">все записи без группы</a>
-  {% endif %} {% if not forloop.last %}
-  <hr />
-  {% endif %} {% endfor %}
+    <ul>
+      <li>Автор: {{ post.author.get_full_name }}</li>
+      <li>Дата публикации: {{ post.pub_date|date:"d E Y" }}</li>
+    </ul>
+    <p>{{ post.text }}</p>
+      {% if post.group.slug != None %}
+      <a href="{% url 'posts:groups' post.group.slug %}"
+        >все записи группы {{ post.group.slug }}</a
+      >
+      {% elif post.group.slug == None %}
+      <a href="{% url 'posts:groups' %}">все записи без группы</a>
+      {% endif %}
+    {% if not forloop.last %}
+      <hr />
+    {% endif %}
+  {% endfor %}
+
+
+  {% include "posts/paginator.html" %}
 </div>
 
-{% include "posts/paginator.html" %}
 
 {% endblock %}

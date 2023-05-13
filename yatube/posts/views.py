@@ -3,12 +3,13 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator
 
+from core.functions.decorators import authorized_only
 from .models import Group, Post
+
 
 # Create your views here.
 # Главная страница
-
-
+@authorized_only
 def index(request):
     # Загружаем шаблон;
     # шаблоны обычно хранят в отдельной директории.
@@ -35,6 +36,7 @@ def index(request):
     return render(request, template, context)
 
 
+@authorized_only
 def group_posts(request, slug=None):
     template = 'posts/group_list.html'
     # Функция get_object_or_404 получает по заданным критериям объект
