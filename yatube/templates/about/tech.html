@@ -1,0 +1,32 @@
+<!-- templates/about/tech.html-->
+{% extends 'base.html' %}
+{% block title %}Tech{% endblock title %}
+{% block content %}
+{% comment %}Columns with padding from top and bottom{% endcomment %}
+<div class="row">
+    <h1>Here is what used on the site:</h1>
+    {% comment "" %}
+        Sideblock with list of Tech
+        It will take all width on mobile
+        and 25% on screens >=768px
+    {% endcomment %}
+    <aside class="col-12 col-md-3">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                Python
+            </li>
+            <li class="list-group-item">
+                Django
+            </li>
+        </ul>
+    </aside>
+    {% comment %}
+        Article
+        Will take all width on mobile
+        and 75% on screens >=768px
+    {% endcomment %}
+    <article class="col-12 col-md-9">
+        <p>Text of the page</p>
+    </article>
+</div>
+{% endblock content %}
