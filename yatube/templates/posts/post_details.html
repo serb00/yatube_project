@@ -1,13 +1,12 @@
-<!-- templates/posts/index.html -->
+<!-- templates/posts/post_detail.html -->
 {% extends 'base.html' %} {% block content %}
 <div class="container py-5">
-  <h1>{{ header }}</h1>
+  <h1>Information on post id: {{ post.pk }}</h1>
   <br/>
-  {% for post in page_obj %}
     <ul>
       <li>Author: 
         <a class='' href="{% url 'posts:profile' post.author.username %}">
-          {{ post.author.get_full_name }}
+            {{ post.author.get_full_name }}
         </a>
       </li>
       <li>Published: {{ post.pub_date|date:"d E Y" }}</li>
@@ -15,18 +14,11 @@
     <p>{{ post.text }}</p>
       {% if post.group.slug != None %}
       <a href="{% url 'posts:groups' post.group.slug %}"
-        >All posts in group {{ post.group.slug }}</a
+        >All posts in group: {{ post.group.slug }}</a
       >
       {% elif post.group.slug == None %}
       <a href="{% url 'posts:groups' %}">All post without group</a>
       {% endif %}
-    {% if not forloop.last %}
-      <hr />
-    {% endif %}
-  {% endfor %}
-
-
-  {% include "posts/paginator.html" %}
 </div>
 
 

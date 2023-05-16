@@ -1,10 +1,10 @@
 # from django.shortcuts import render
-from django.http import HttpResponse
+# from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator
 
 from core.functions.decorators import authorized_only
-from .models import Group, Post
+from .models import Group, Post, User
 
 
 # Create your views here.
@@ -67,7 +67,28 @@ def group_posts(request, slug=None):
     return render(request, template, context)
 
 
-# Страница с информацией об одном сорте мороженого;
-# view-функция принимает параметр pk из path()
-def group_detail(request, pk):
-    return HttpResponse(f'Группа номер {pk}')
+def profile(request, username):
+    template = 'posts/profile.html'
+
+    user = User.objects.get(username=username)
+    posts = Post.objects.filter(author=user).order_by('-pub_date')[:10]
+
+    # paginator = Paginator(posts, 10)
+    # page_number = request.GET.get("page")
+    # page_obj = paginator.get_page(page_number)
+
+    context = {
+        'user': user,
+        'posts': posts
+    }
+
+    return render(request, template, context)
+
+
+def post_details(request, post_id):
+    template = 'posts/post_details.html'
+    post = Post.objects.get(pk=post_id)
+    context = {
+        'post': post
+    }
+    return render(request, template, context)

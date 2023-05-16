@@ -1,18 +1,18 @@
-<!-- templates/posts/index.html -->
+<!-- templates/posts/profile.html -->
 {% extends 'base.html' %} {% block content %}
+{% load static %}
 <div class="container py-5">
-  <h1>{{ header }}</h1>
+  <h1>{{ user.get_full_name }} has {{ posts.count }} posts:</h1>
   <br/>
-  {% for post in page_obj %}
+  {% for post in posts %}
     <ul>
-      <li>Author: 
-        <a class='' href="{% url 'posts:profile' post.author.username %}">
-          {{ post.author.get_full_name }}
-        </a>
-      </li>
       <li>Published: {{ post.pub_date|date:"d E Y" }}</li>
     </ul>
-    <p>{{ post.text }}</p>
+    <p>
+        <a href="{% url 'posts:post_details' post.pk %}">
+        {{ post.text|slice:":-4" }}...
+        </a>
+    </p>
       {% if post.group.slug != None %}
       <a href="{% url 'posts:groups' post.group.slug %}"
         >All posts in group {{ post.group.slug }}</a
