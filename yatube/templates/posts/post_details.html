@@ -10,6 +10,13 @@
         </a>
       </li>
       <li>Published: {{ post.pub_date|date:"d E Y" }}</li>
+      {% if user == post.author %}
+        <li>
+          <a class='' href="{% url 'posts:post_edit' post.pk %}">
+            Edit post
+          </a>
+        </li>
+      {% endif %}
     </ul>
     <p>{{ post.text }}</p>
       {% if post.group.slug != None %}

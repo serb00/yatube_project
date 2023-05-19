@@ -1,9 +1,10 @@
 # from django.shortcuts import render
 # from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.core.paginator import Paginator
 
 from core.functions.decorators import authorized_only
+from .forms import PostCreationForm
 from .models import Group, Post, User
 
 
@@ -21,7 +22,7 @@ def index(request):
     posts = Post.objects.order_by('-pub_date')
 
     # add paginator
-    paginator = Paginator(posts, 2)
+    paginator = Paginator(posts, 10)
     # getting page number from URL Get request
     page_number = request.GET.get("page")
     # getting that page from paginator
@@ -54,7 +55,7 @@ def group_posts(request, slug=None):
     posts = Post.objects.filter(group=group).order_by('-pub_date')
 
     # add paginator
-    paginator = Paginator(posts, 2)
+    paginator = Paginator(posts, 10)
     # getting page number from URL Get request
     page_number = request.GET.get("page")
     # getting that page from paginator
@@ -90,5 +91,61 @@ def post_details(request, post_id):
     post = Post.objects.get(pk=post_id)
     context = {
         'post': post
+    }
+    return render(request, template, context)
+
+
+@authorized_only
+def post_create(request):
+    template = 'posts/post_create.html'
+    if request.method == 'POST':
+        form = PostCreationForm(request.POST)
+        user = User.objects.get(username=request.user.username)
+        if form.is_valid():
+            post_instance = form.save(commit=False)
+            post_instance.text = form.cleaned_data['text']
+            post_instance.group = form.cleaned_data['group']
+            post_instance.author = user
+
+            post_instance.save()
+            return redirect(f'/profile/{request.user.username}')
+        return render(request, template, {'form': form})
+
+    form = PostCreationForm()
+
+    context = {
+        "form": form
+    }
+    return render(request, template, context)
+
+
+@authorized_only
+def post_edit(request, post_id):
+    template = 'posts/post_create.html'
+    post = get_object_or_404(Post, pk=post_id)
+    form = PostCreationForm(request.POST or None, instance=post)
+    if request.method == 'POST':
+        # form = PostCreationForm(request.POST)
+        user = User.objects.get(username=request.user.username)
+        # group = get_object_or_404(Group, title=form.cleaned_data['group'])
+        if form.is_valid():
+            post_instance = form.save(commit=False)
+            post_instance.text = form.cleaned_data['text']
+            post_instance.group = form.cleaned_data['group']
+            post_instance.author = user
+
+            post_instance.save()
+            return redirect(f'/profile/{request.user.username}')
+        return render(request, template, {'form': form})
+
+    is_edit = request.user == post.author
+
+    if not is_edit:
+        return redirect(f'/posts/{post.pk}')
+
+    context = {
+        "form": form,
+        "is_edit": is_edit,
+        "post": post
     }
     return render(request, template, context)

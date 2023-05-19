@@ -7,9 +7,16 @@
   {% for post in posts %}
     <ul><li>Published: {{ post.pub_date|date:"d E Y" }}</li></ul>
     <p>{{ post.text|truncatechars:30 }} 
-      <br><a href="{% url 'posts:post_details' post.pk %}">
-        show full
+      <br>
+        <a href="{% url 'posts:post_details' post.pk %}">
+          show full
         </a>
+        {% if user == post.author %}
+          <text> | </text>
+          <a class='' href="{% url 'posts:post_edit' post.pk %}">
+            Edit post
+          </a>
+        {% endif %}
     </p>
       
       {% if post.group.slug != None %}
